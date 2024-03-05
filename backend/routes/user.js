@@ -28,7 +28,6 @@ userRouter.post("/signup", async (req, res) => {
   const { success } = signUpValidate.safeParse(req.body);
 
   const duplicate = await User.findOne({ email: req.body.email });
-  console.log(jwtSecret);
   if (success) {
     if (duplicate) {
       return res.status(411).json({ message: "User already Exists" });
@@ -40,7 +39,7 @@ userRouter.post("/signup", async (req, res) => {
 
     await Account.create({
       userId: userId,
-      balance: 1 + Math.random() * 10000,
+      balance: (1 + Math.random() * 10000).toFixed(2),
     });
 
     return res.status(200).json({
